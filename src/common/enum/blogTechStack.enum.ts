@@ -1,0 +1,17 @@
+export enum BlogTechStack {
+  NESTJS = 'nestjs',
+  NEXTJS = 'nextjs',
+  NODEJS = 'nodejs',
+  EXPRESS = 'express',
+  REACT = 'react',
+  REDIS = 'redis',
+  MONGODB = 'mongodb',
+  POSTGRES = 'postgres',
+  MYSQL = 'mysql',
+  BULLMQ = 'bullmq',
+  DOCKER = 'docker',
+  KUBERNETES = 'kubernetes',
+  NGINX = 'nginx',
+  AWS = 'aws',
+  GCP = 'gcp',
+}
