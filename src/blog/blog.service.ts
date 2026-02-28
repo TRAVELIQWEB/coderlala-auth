@@ -46,6 +46,7 @@ export class BlogService {
         const tags = blog?.tags;
 
         let filter = {
+            $ne: slug,
             $or: [
                 {
                     primaryTech,
