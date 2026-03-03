@@ -46,7 +46,8 @@ export class BlogService {
         const tags = blog?.tags;
 
         let filter = {
-            $ne: slug,
+            // slug: {$ne: slug}, // Exclude the current blog from related blogs
+            slug: {$ne: slug}, // Exclude the current blog from related blogs
             $or: [
                 {
                     primaryTech,
