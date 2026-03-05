@@ -27,7 +27,8 @@ export class AuthController {
             expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 days
             httpOnly: process.env.ENVIRONMENT === "production", // 🔴 only set httpOnly in production
             secure: process.env.ENVIRONMENT === "production", // 🔴 only set secure in production
-            sameSite: process.env.ENVIRONMENT === "production" ? 'none' : 'lax', // 🔴 set sameSite to 'none' in production for cross-site cookies
+            sameSite: 'lax', // 🔴 set sameSite to 'none' in production for cross-site cookies
+            domain: ".coderlala.com", 
             path: '/'
         });
         return { message: 'Login successful', role, access_token, status: 200 };
