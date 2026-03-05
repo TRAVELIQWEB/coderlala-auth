@@ -15,36 +15,50 @@ export class AuthController {
             dto.password
         )
     }
+
     @Post("login")
     async login(@Body() dto: initializeDto, @Res({ passthrough: true }) res: Response) {
 
         const { access_token, role } = await this.authService.login(
             dto.email,
             dto.password
-        )
+        );
 
         res.cookie("access_token", access_token, {
-            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 days
-            httpOnly: process.env.ENVIRONMENT === "production", // 🔴 only set httpOnly in production
-            secure: process.env.ENVIRONMENT === "production", // 🔴 only set secure in production
-            sameSite: 'lax', // 🔴 set sameSite to 'none' in production for cross-site cookies
-            domain: ".coderlala.com", 
-            path: '/'
+            httpOnly: true,
+            secure: process.env.ENVIRONMENT === "production",
+            sameSite: "lax",
+            domain: ".coderlala.com",
+            path: "/",
+            maxAge: 24 * 60 * 60 * 1000
         });
-        return { message: 'Login successful', role, access_token, status: 200 };
+
+        res.cookie("role", role, {
+            httpOnly: false,   // must be readable by proxy
+            secure: process.env.ENVIRONMENT === "production",
+            sameSite: "lax",
+            domain: ".coderlala.com",
+            path: "/",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        return { message: "Login successful", status: 200 };
     }
 
     @Get('logout')
     logout(@Res({ passthrough: true }) res: Response) {
-        res.clearCookie('access_token', {
-            expires: new Date(0),
-            httpOnly: process.env.ENVIRONMENT === "production",
-            sameSite: process.env.ENVIRONMENT === "production" ? 'none' : 'lax',
-            secure: process.env.ENVIRONMENT === "production",
-            path: '/',
+        res.clearCookie("access_token", {
+            domain: ".coderlala.com",
+            path: "/"
         });
 
-        return { message: 'Logout successful' ,status: "success"};
+        res.clearCookie("role", {
+            domain: ".coderlala.com",
+            path: "/"
+        });
+
+
+        return { message: 'Logout successful', status: "success" };
     }
 
 
